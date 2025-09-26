@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ announcement.title }}{% endblock %}
+{% block content %}
+<h2>{{ announcement.title }}</h2>
+<p id="short">{{ announcement.content|slice:":100" }}...</p>
+<p id="full" style="display:none;">{{ announcement.content }}</p>
+<button onclick="toggleReadMore()">Read more</button>
+
+<script>
+function toggleReadMore() {
+    var shortText = document.getElementById("short");
+    var fullText = document.getElementById("full");
+    var btn = event.target;
+    if (fullText.style.display === "none") {
+        shortText.style.display = "none";
+        fullText.style.display = "block";
+        btn.innerText = "Show less";
+    } else {
+        shortText.style.display = "block";
+        fullText.style.display = "none";
+        btn.innerText = "Read more";
+    }
+}
+</script>
+{% endblock %}
