@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Announcements{% endblock %}
+
 {% block content %}
-<h2>All Announcements</h2>
-<ul>
+<h2 class="mb-4">📢 Announcements</h2>
+
+<div class="list-group">
     {% for ann in announcements %}
-        <li><a href="{% url 'announcement_detail' ann.id %}">{{ ann.title }}</a></li>
+        <a href="{% url 'announcement_detail' ann.id %}" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">{{ ann.title }}</h5>
+            <small class="text-muted">{{ ann.created_at|date:"M d, Y H:i" }}</small>
+        </a>
     {% empty %}
-        <li>No announcements yet.</li>
+        <p class="text-muted">No announcements yet.</p>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}

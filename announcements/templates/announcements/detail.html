@@ -1,25 +1,39 @@
 {% extends "base.html" %}
 {% block title %}{{ announcement.title }}{% endblock %}
+
 {% block content %}
-<h2>{{ announcement.title }}</h2>
-<p id="short">{{ announcement.content|slice:":100" }}...</p>
-<p id="full" style="display:none;">{{ announcement.content }}</p>
-<button onclick="toggleReadMore()">Read more</button>
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 700px;">
+    <h2>{{ announcement.title }}</h2>
+    <p class="text-muted">Published {{ announcement.created_at|date:"M d, Y H:i" }}</p>
+
+    <p id="short-text">
+        {{ announcement.content|truncatechars:200 }}
+    </p>
+    <p id="full-text" style="display:none;">
+        {{ announcement.content }}
+    </p>
+
+    <div class="mt-3 d-flex gap-2">
+        <button id="toggle-btn" class="btn btn-primary btn-sm">Read more</button>
+        <a href="{% url 'announcement_list' %}" class="btn btn-secondary btn-sm">Back to list</a>
+    </div>
+</div>
 
 <script>
-function toggleReadMore() {
-    var shortText = document.getElementById("short");
-    var fullText = document.getElementById("full");
-    var btn = event.target;
-    if (fullText.style.display === "none") {
-        shortText.style.display = "none";
-        fullText.style.display = "block";
-        btn.innerText = "Show less";
-    } else {
-        shortText.style.display = "block";
-        fullText.style.display = "none";
-        btn.innerText = "Read more";
-    }
-}
+    const btn = document.getElementById("toggle-btn");
+    const shortText = document.getElementById("short-text");
+    const fullText = document.getElementById("full-text");
+
+    btn.addEventListener("click", () => {
+        if (fullText.style.display === "none") {
+            fullText.style.display = "block";
+            shortText.style.display = "none";
+            btn.textContent = "Show less";
+        } else {
+            fullText.style.display = "none";
+            shortText.style.display = "block";
+            btn.textContent = "Read more";
+        }
+    });
 </script>
 {% endblock %}
